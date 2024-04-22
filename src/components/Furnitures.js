@@ -1,7 +1,8 @@
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Sidebar } from "primereact/sidebar";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { CartContext } from "../context/CartContext";
 
 const Furnitures = ({ categories, name }) => {
   const [products, setProducts] = useState([]);
@@ -10,6 +11,7 @@ const Furnitures = ({ categories, name }) => {
   const [categoryId, setCategoryId] = useState("");
   const [visible, setVisible] = useState(false);
   const [activeProduct, setActiveProduct] = useState({});
+  const { data, updateData } = useContext(CartContext);
 
   const getCategoryId = async (name) => {
     console.log(categories);
@@ -96,7 +98,12 @@ const Furnitures = ({ categories, name }) => {
             >
               Furniture
             </div>
-            <div className="add-to-cart">+</div>
+            <div
+              className="add-to-cart"
+              onClick={() => updateData(product, "CART")}
+            >
+              +
+            </div>
           </div>
         ))}
       </div>

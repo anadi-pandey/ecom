@@ -1,5 +1,5 @@
 // MyContext.js
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 const CartContext = createContext();
 
@@ -9,6 +9,14 @@ const CartContextProvider = ({ children }) => {
     orderedItems: {},
   });
 
+  const getTotalAmount = () => {
+    let amountTotal = 0;
+    for (let key in data?.addedToCart) {
+      amountTotal = amountTotal + data?.addedToCart[key]?.price;
+      console.log(data?.addedToCart[key]?.price);
+    }
+    return amountTotal;
+  };
   const updateData = (newData, operation) => {
     console.log("Context Data");
 
@@ -16,6 +24,7 @@ const CartContextProvider = ({ children }) => {
       setData({
         addedToCart: { ...data?.addedToCart, [newData?.id]: newData },
         orderedItems: data?.orderedItems,
+        totalAmount: getTotalAmount(),
       });
     }
     // setData(newData);

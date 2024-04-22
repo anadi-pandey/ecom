@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { InputText } from "primereact/inputtext";
 import { Sidebar } from "primereact/sidebar";
 import { Divider } from "primereact/divider";
+import { CartContext } from "../context/CartContext";
 
 const Electronics = ({ categories, name }) => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [categoryId, setCategoryId] = useState("");
+  const { data, updateData } = useContext(CartContext);
 
   const [visible, setVisible] = useState(false);
   const [activeProduct, setActiveProduct] = useState({});
@@ -98,7 +100,12 @@ const Electronics = ({ categories, name }) => {
             >
               Electronics
             </div>
-            <div className="add-to-cart">+</div>
+            <div
+              className="add-to-cart"
+              onClick={() => updateData(product, "CART")}
+            >
+              +
+            </div>
           </div>
         ))}
       </div>
