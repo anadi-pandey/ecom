@@ -64,48 +64,71 @@ const Clothes = ({ categories, name }) => {
           placeholder="Search a Product"
         />
       </div>
-      <div className="products-container">
-        {products?.map((product) => (
-          <div className="product-card" style={{ position: "relative" }}>
-            <img
-              src={product?.images[0]}
-              height={200}
-              width={224}
-              style={{ borderRadius: "10px" }}
-              onClick={() => {
-                setActiveProduct(product);
-                setVisible(true);
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <p
-                style={{ width: "80%", textAlign: "left", fontSize: "medium" }}
+      {!loading && (
+        <div className="products-container">
+          {products?.map((product) => (
+            <div className="product-card" style={{ position: "relative" }}>
+              <img
+                src={product?.images[0]}
+                height={200}
+                width={224}
+                style={{ borderRadius: "10px" }}
+                onClick={() => {
+                  setActiveProduct(product);
+                  setVisible(true);
+                }}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p
+                  style={{
+                    width: "80%",
+                    textAlign: "left",
+                    fontSize: "medium",
+                  }}
+                >
+                  {product?.title}
+                </p>
+                <p>${product?.price}</p>
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "160px",
+                  left: "10px",
+                  backgroundColor: "#DDDBDB",
+                  padding: "2px 5px 2px 5px",
+                  borderRadius: "5px",
+                }}
               >
-                {product?.title}
-              </p>
-              <p>${product?.price}</p>
+                Clothes
+              </div>
+              <div
+                className="add-to-cart"
+                onClick={() => updateData(product, "CART")}
+              >
+                +
+              </div>
             </div>
-            <div
-              style={{
-                position: "absolute",
-                top: "160px",
-                left: "10px",
-                backgroundColor: "#DDDBDB",
-                padding: "2px 5px 2px 5px",
-                borderRadius: "5px",
-              }}
-            >
-              Clothes
-            </div>
-            <div
-              className="add-to-cart"
-              onClick={() => updateData(product, "CART")}
-            >
-              +
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
+
+      {loading && (
+        <div
+          style={{
+            height: "70vh",
+            width: "100vw",
+            display: "flex",
+            justifyItems: "center",
+            alignItems: "center",
+          }}
+        >
+          <i
+            className="pi pi-spin pi-spinner"
+            style={{ fontSize: "3rem", margin: "auto" }}
+          ></i>
+        </div>
+      )}
 
       {/* Details Drawer */}
       <Sidebar

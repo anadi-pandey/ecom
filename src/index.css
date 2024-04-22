@@ -62,7 +62,6 @@ code {
 }
 
 .p-sidebar-mask {
-  border: 2px solid red;
   width: fit-content !important;
   right: 0;
 }

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Sidebar } from "primereact/sidebar";
 
 import { Button } from "primereact/button";
@@ -12,13 +12,14 @@ const AppLayout = () => {
   const [visible, setVisible] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const { data, updateData } = useContext(CartContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(data);
     if (Object?.keys(data?.addedToCart)?.length !== 0) {
       setCartItems(data?.addedToCart);
     } else {
-      setCartItems({ 1: { name: "No Products Added" } });
+      setCartItems({ na: { name: "No Products Added" } });
     }
   }, [data]);
 
@@ -48,35 +49,36 @@ const AppLayout = () => {
         <div className="ordered-items">
           {Object.keys(cartItems)?.map((item) => {
             console.log(cartItems[item]?.title);
-            return (
-              <div style={{ margin: "10px 0" }}>
-                <div
-                  style={{
-                    padding: "20px 0 20px 0",
-                    display: "flex",
-                    alignItems: "center",
-                    position: "relative",
-                  }}
-                >
-                  <div>
-                    <img
-                      src={cartItems[item]?.images?.[0]}
-                      width={80}
-                      height={80}
-                      style={{ margin: "10px", borderRadius: "10px" }}
-                    />
+            if (item !== "na")
+              return (
+                <div style={{ margin: "10px 0" }}>
+                  <div
+                    style={{
+                      padding: "20px 0 20px 0",
+                      display: "flex",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    <div>
+                      <img
+                        src={cartItems[item]?.images?.[0]}
+                        width={80}
+                        height={80}
+                        style={{ margin: "10px", borderRadius: "10px" }}
+                      />
+                    </div>
+                    <p style={{ fontSize: "smaller", width: "50%" }}>
+                      {" "}
+                      {cartItems[item]?.title}
+                    </p>
+                    <p style={{ position: "absolute", right: "10px" }}>
+                      {cartItems[item]?.price}
+                    </p>
                   </div>
-                  <p style={{ fontSize: "smaller", width: "50%" }}>
-                    {" "}
-                    {cartItems[item]?.title}
-                  </p>
-                  <p style={{ position: "absolute", right: "10px" }}>
-                    {cartItems[item]?.price}
-                  </p>
+                  <Divider />
                 </div>
-                <Divider />
-              </div>
-            );
+              );
           })}
         </div>
 
@@ -93,6 +95,20 @@ const AppLayout = () => {
             border: "none",
             borderRadius: "10px",
             textTransform: "uppercase",
+          }}
+          onClick={() => {
+            const date = new Date();
+            updateData(
+              {
+                ...data,
+                orderedItems: {
+                  ...data?.orderedItems,
+                  [date?.toISOString()]: cartItems,
+                },
+              },
+              "ORDER"
+            );
+            navigate("/order-summary");
           }}
         >
           Checkout

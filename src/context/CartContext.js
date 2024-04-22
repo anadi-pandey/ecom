@@ -9,14 +9,15 @@ const CartContextProvider = ({ children }) => {
     orderedItems: {},
   });
 
-  const getTotalAmount = () => {
+  const getTotalAmount = (list) => {
+    console.log(list);
     let amountTotal = 0;
-    for (let key in data?.addedToCart) {
-      amountTotal = amountTotal + data?.addedToCart[key]?.price;
-      console.log(data?.addedToCart[key]?.price);
-    }
+    Object?.keys(list)?.map((key) => {
+      amountTotal = amountTotal + list[key]?.price;
+    });
     return amountTotal;
   };
+
   const updateData = (newData, operation) => {
     console.log("Context Data");
 
@@ -24,7 +25,16 @@ const CartContextProvider = ({ children }) => {
       setData({
         addedToCart: { ...data?.addedToCart, [newData?.id]: newData },
         orderedItems: data?.orderedItems,
-        totalAmount: getTotalAmount(),
+        totalAmount: getTotalAmount({
+          ...data?.addedToCart,
+          [newData?.id]: newData,
+        }),
+      });
+    }
+    if (operation === "ORDER") {
+      setData({
+        ...data,
+        orderedItems: newData?.orderedItems,
       });
     }
     // setData(newData);

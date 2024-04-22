@@ -8,6 +8,7 @@ import Toys from "./components/Toys";
 import Furnitures from "./components/Furnitures";
 import React, { useState, useEffect } from "react";
 import { CartContextProvider } from "./context/CartContext";
+import OrderSummary from "./components/OrderSummary";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -86,6 +87,13 @@ function App() {
                 path="furnitures"
                 element={
                   <Furnitures categories={categories} name="Furniture" />
+                }
+              />
+
+              <Route
+                path="order-summary"
+                element={
+                  <OrderSummary categories={categories} name="Furniture" />
                 }
               />
             </Route>
