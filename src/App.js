@@ -7,6 +7,7 @@ import Clothes from "./components/Clothes";
 import Toys from "./components/Toys";
 import Furnitures from "./components/Furnitures";
 import React, { useState, useEffect } from "react";
+import { CartContextProvider } from "./context/CartContext";
 
 function App() {
   const [categories, setCategories] = useState([]);
@@ -61,32 +62,36 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<AppLayout />}>
-            <Route path="/" element={<Home products={products} />} />
-            <Route path="home" element={<Home products={products} />} />
-            <Route
-              path="electronics"
-              element={
-                <Electronics categories={categories} name="Electronics" />
-              }
-            />
-            <Route
-              path="clothes"
-              element={<Clothes categories={categories} name="Clothes" />}
-            />
-            <Route
-              path="toys"
-              element={<Toys categories={categories} name="Toys" />}
-            />
-            <Route
-              path="furnitures"
-              element={<Furnitures categories={categories} name="Furniture" />}
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <CartContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<AppLayout />}>
+              <Route path="/" element={<Home products={products} />} />
+              <Route path="home" element={<Home products={products} />} />
+              <Route
+                path="electronics"
+                element={
+                  <Electronics categories={categories} name="Electronics" />
+                }
+              />
+              <Route
+                path="clothes"
+                element={<Clothes categories={categories} name="Clothes" />}
+              />
+              <Route
+                path="toys"
+                element={<Toys categories={categories} name="Toys" />}
+              />
+              <Route
+                path="furnitures"
+                element={
+                  <Furnitures categories={categories} name="Furniture" />
+                }
+              />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </CartContextProvider>
     </div>
   );
 }

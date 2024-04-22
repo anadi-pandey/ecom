@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import "primeicons/primeicons.css";
 
 const Header = ({ showDrawer }) => {
   // JSX -> Syntax to write HTML in JS
@@ -51,7 +52,10 @@ const Header = ({ showDrawer }) => {
       >
         <div>User Email</div>
         <div>My Orders</div>
-        <div onClick={() => showDrawer()}>My Cart</div>
+        <div onClick={() => showDrawer()}>
+          <i className="pi pi-shopping-cart" style={{ color: "#708090" }}></i>{" "}
+          Cart
+        </div>
       </div>
     </div>
   );
